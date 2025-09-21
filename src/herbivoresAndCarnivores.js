@@ -7,7 +7,7 @@ class Animal {
     this.name = name;
     this.health = health;
 
-    // Jeśli tworzymy Herbivore, ustaw hidden na false
+    // If the instance is a Herbivore, initialize hidden
     if (this instanceof Herbivore) {
       this.hidden = false;
     }
@@ -16,12 +16,8 @@ class Animal {
   }
 
   checkAlive() {
-    if (this.health <= 0) {
-      const index = Animal.alive.indexOf(this);
-      if (index !== -1) {
-        Animal.alive.splice(index, 1);
-      }
-    }
+    // Filter out dead animals
+    Animal.alive = Animal.alive.filter(animal => animal.health > 0);
   }
 }
 
@@ -33,19 +29,16 @@ class Herbivore extends Animal {
 
 class Carnivore extends Animal {
   bite(prey) {
-    // działa tylko na Herbivore i tylko jeśli nie ukryty
-    if (!(prey instanceof Herbivore)) return;
-    if (prey.hidden) return;
+    if (!(prey instanceof Herbivore)) return; // can't bite other carnivores
+    if (prey.hidden) return; // can't bite hiding herbivore
 
     prey.health -= 50;
-    if (prey.health <= 0) {
-      prey.checkAlive();
-    }
+    prey.checkAlive(); // update alive array
   }
 }
 
 module.exports = {
   Animal,
   Herbivore,
-  Carnivore
+  Carnivore,
 };
