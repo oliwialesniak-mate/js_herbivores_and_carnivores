@@ -7,12 +7,11 @@ class Animal {
     this.name = name;
     this.health = health;
 
-    // Herbivore może mieć hidden
+    // Jeśli tworzymy Herbivore, ustaw hidden na false
     if (this instanceof Herbivore) {
       this.hidden = false;
     }
 
-    // Dodajemy instancję do tablicy żywych
     Animal.alive.push(this);
   }
 
@@ -27,23 +26,14 @@ class Animal {
 }
 
 class Herbivore extends Animal {
-  constructor(name) {
-    super(name);
-    this.hidden = false;
-  }
-
   hide() {
     this.hidden = true;
   }
 }
 
 class Carnivore extends Animal {
-  constructor(name) {
-    super(name);
-  }
-
   bite(prey) {
-    // działa tylko na Herbivore i jeśli nie jest ukryty
+    // działa tylko na Herbivore i tylko jeśli nie ukryty
     if (!(prey instanceof Herbivore)) return;
     if (prey.hidden) return;
 
@@ -57,5 +47,5 @@ class Carnivore extends Animal {
 module.exports = {
   Animal,
   Herbivore,
-  Carnivore,
+  Carnivore
 };
